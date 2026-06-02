@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Persona Chat</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/app.css" />
+</head>
+<body>
+  <!-- Auth screen -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="logo-mark">P</span>
+        <span class="logo-text">Persona<em>Chat</em></span>
+      </div>
+      <p class="auth-subtitle">Talk to history's greatest minds</p>
+
+      <div class="tab-row">
+        <button class="tab active" data-tab="login">Sign in</button>
+        <button class="tab" data-tab="register">Create account</button>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <div class="field">
+          <label>Email or username</label>
+          <input type="text" id="login-username" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" required />
+        </div>
+        <div id="login-error" class="form-error hidden"></div>
+        <button type="submit" class="btn-primary">Sign in</button>
+      </form>
+
+      <form id="register-form" class="auth-form hidden">
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="reg-email" placeholder="you@example.com" required />
+        </div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="reg-username" placeholder="yourname" required />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min 8 characters" required />
+        </div>
+        <div id="register-error" class="form-error hidden"></div>
+        <button type="submit" class="btn-primary">Create account</button>
+      </form>
+
+      <div class="auth-divider"><span>or</span></div>
+      <button id="guest-btn" class="btn-guest">Try as guest — no sign-up needed</button>
+    </div>
+  </div>
+
+  <!-- App shell -->
+  <div id="app" class="app hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="logo-mark-sm">P</span>
+          <span>PersonaChat</span>
+        </div>
+        <button id="new-chat-btn" class="new-chat-btn" title="New chat">+</button>
+      </div>
+
+      <div class="sessions-list" id="sessions-list">
+        <p class="sessions-empty">No chats yet</p>
+      </div>
+
+      <div class="sidebar-footer">
+        <span id="username-display" class="username-display"></span>
+        <button id="logout-btn" class="logout-btn">Sign out</button>
+      </div>
+    </aside>
+
+    <!-- Main area -->
+    <main class="main">
+
+      <!-- Persona picker (shown when no session active) -->
+      <div id="persona-picker" class="persona-picker">
+        <h1 class="picker-title">Who do you want to talk to?</h1>
+        <p class="picker-sub">Each persona has a distinct voice and way of thinking.</p>
+        <div class="persona-grid" id="persona-grid"></div>
+      </div>
+
+      <!-- Chat view -->
+      <div id="chat-view" class="chat-view hidden">
+        <div class="chat-header">
+          <div class="chat-persona-info">
+            <span id="chat-avatar" class="chat-avatar"></span>
+            <div>
+              <div id="chat-persona-name" class="chat-persona-name"></div>
+              <div id="chat-persona-desc" class="chat-persona-desc"></div>
+            </div>
+          </div>
+          <button id="delete-session-btn" class="icon-btn" title="Delete chat">✕</button>
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+        <div class="input-bar">
+          <textarea
+            id="message-input"
+            class="message-input"
+            placeholder="Say something..."
+            rows="1"
+          ></textarea>
+          <button id="send-btn" class="send-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

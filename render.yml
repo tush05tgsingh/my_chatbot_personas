@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: persona-chat
+    runtime: docker
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: OLLAMA_BASE_URL
+        sync: false          # set this in Render dashboard to your Ollama instance URL
+      - key: MODEL
+        value: llama3.1
+      - key: DB_PATH
+        value: /var/data/app.db
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
