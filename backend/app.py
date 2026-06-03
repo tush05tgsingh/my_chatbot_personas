@@ -15,12 +15,13 @@ from groq import Groq
 from .personas import PERSONAS
 from .database import init_db, get_db
 from .auth import hash_password, create_access_token, verify_password, get_current_user
-
+from dotenv import load_dotenv
+load_dotenv()
  
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1")
 OLLAMA_API_KEY = os.getenv("OLLAMA_API_KEY", "ollama3.1")
 MODEL = os.getenv("MODEL", "llama3.1")
-GROQ_API_KEY = os.getenv("GROQ", "")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "***")
 MAX_HISTORY = 20
 
 class RegisterRequest(BaseModel):
@@ -209,6 +210,7 @@ def chat(session_id: str, req: ChatRequest, user=Depends(get_current_user)):
     # Call Ollama
     try:
         client = Groq(api_key = GROQ_API_KEY)
+        print(client, GROQ_API_KEY)
         messages=[{"role": "system", "content": persona["system"]}] + history
 
         completion = client.chat.completions.create(
@@ -222,6 +224,7 @@ def chat(session_id: str, req: ChatRequest, user=Depends(get_current_user)):
         #     messages=[{"role": "system", "content": persona["system"]}] + history,
         # )
         reply = completion.choices[0].message.content #response.choices[0].message.content
+        print(reply)
     except Exception as e:
         conn.close()
         raise HTTPException(status_code=502, detail=f"Model error: {str(e)}")
