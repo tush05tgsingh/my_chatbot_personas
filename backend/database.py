@@ -1,20 +1,22 @@
 import os
-import sqlite3
-from pathlib import Path
-DB_PATH = Path(os.getenv("DB_PATH", "./data/app.db"))
+from sqlalchemy import create_engine
+import psycopg
+from dotenv import load_dotenv
+load_dotenv()
 
-def get_db() -> sqlite3.Connection:
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
-    conn.execute("PRAGMA journal_mode=WAL")
-    conn.execute("PRAGMA foreign_keys=ON")
+SQLALCHEMY_DATABASE_URL = os.getenv("SQLALCHEMY_DATABASE_URL","")
+print(SQLALCHEMY_DATABASE_URL)
+
+def get_db():
+    conn = psycopg.connect(SQLALCHEMY_DATABASE_URL)
+    # conn.cursor_factory = psycopg.extras.RealDictCursor  # same as sqlite3.Row — returns dict-like rows
     return conn
  
  
 def init_db():
     conn = get_db()
-    conn.executescript("""
+    cur = conn.cursor()
+    cur.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id         TEXT PRIMARY KEY,
             email      TEXT UNIQUE NOT NULL,
@@ -42,3 +44,6 @@ def init_db():
     """)
     conn.commit()
     conn.close()
+
+if __name__=="__main__":
+    init_db()

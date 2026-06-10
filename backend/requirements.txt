@@ -6,3 +6,5 @@ passlib[bcrypt]==1.7.4
 python-multipart==0.0.12
 pydantic[email]==2.9.2
 groq==1.4.0
+sqlalchemy
+psycopg2-binary
